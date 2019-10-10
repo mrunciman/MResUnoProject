@@ -12,7 +12,7 @@ volatile int mmDistance = 75;
 
 //Instantiate stepper motor
 const int stepsPerRevolution = 2048;  // change this to fit the number of steps per revolution
-const int revPerMinute = 15;         // Adjustable range of 28BYJ-48 stepper is 0~17 rpm
+const int revPerMinute = 10;         // Adjustable range of 28BYJ-48 stepper is 0~17 rpm
 // initialize the stepper library on pins 8 through 11:
 Stepper myStepper(stepsPerRevolution, 8, 10, 9, 11);
 
@@ -111,21 +111,24 @@ void loop() {
 
    if (stepFlag == true){
      //Move the stepper
-     if (absStep > 150){
-       //myStepper.step(errorSteps);
+     if (absStep < 50){
+       myStepper.step(errorSteps);
        //Serial.println("A");
+     }
+     else if(absStep > 200){
+      //
      }
      else if(errorSteps < 0){
        myStepper.step(-1);
        //myStepper.step(errorSteps);
        //Serial.println("B");
-     }
-   
+     }   
      else if (errorSteps > 0){
        myStepper.step(1);
        //myStepper.step(errorSteps);
        //Serial.println("C");
      }
     stepFlag = false;
+    errorSteps = 0;
    }
 }
